@@ -1,16 +1,21 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTyes from 'prop-types'
 import styles from './calendar.css'
+import { connect } from 'react-redux'
 import DayCard from './DayCard'
+import { isOpenedReminderModal, getReminderDate } from '../reducers'
+import ReminderModal from '../components/ReminderModal'
 
-export default class Calendar extends Component {
+class Calendar extends Component {
     static propTypes = {
         year: PropTyes.number.isRequired,
         month: PropTyes.number.isRequired,
+        openedReminderModal: PropTyes.bool.isRequired,
+        reminderDate: PropTyes.object.isRequired,
     }
 
     render() {
-        const { year, month } = this.props
+        const { year, month, openedReminderModal, reminderDate } = this.props
 
         const firstDay = new Date(year, month, 1)
         const firstDayNum = firstDay.getDay()
@@ -37,19 +42,30 @@ export default class Calendar extends Component {
             }
         }
         return (
-            <div className={ styles.calendar }>
-                <div className={ styles.calendarHeader }>
-                    <div>Sunday</div>
-                    <div>Monday</div>
-                    <div>Tuesday</div>
-                    <div>Wednesday</div>
-                    <div>Thursday</div>
-                    <div>Friday</div>
-                    <div>Saturday</div>
+            <Fragment>
+                <div className={ styles.calendar }>
+                    <div className={ styles.calendarHeader }>
+                        <div>Sunday</div>
+                        <div>Monday</div>
+                        <div>Tuesday</div>
+                        <div>Wednesday</div>
+                        <div>Thursday</div>
+                        <div>Friday</div>
+                        <div>Saturday</div>
 
+                    </div>
+                    <div className={ styles.calendarBody}>{ calElements }</div>
                 </div>
-                <div className={ styles.calendarBody}>{ calElements }</div>
-            </div>
+
+                {openedReminderModal && <ReminderModal data={ reminderDate } />}
+            </Fragment>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    openedReminderModal: isOpenedReminderModal(state),
+    reminderDate: getReminderDate(state),
+})
+
+export default connect(mapStateToProps)(Calendar)

@@ -1,23 +1,32 @@
 import React, { Component } from 'react'
 import styles from './daycard.css'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { showReminderModal } from '../actions'
 
-export default class DayCard extends Component {
+class DayCard extends Component {
     static propTypes = {
         date: PropTypes.shape({
             year: PropTypes.number,
             month: PropTypes.number,
             day: PropTypes.number,
-        }).isRequired
+        }).isRequired,
+        showReminderModal: PropTypes.func.isRequired,
     }
 
     render() {
-        const { date } = this.props
+        const { date, showReminderModal } = this.props
 
         return (
-            <div className={styles.daycard} onClick={() => console.log('click')}>
+            <div className={styles.daycard} onClick={() => showReminderModal(date.year, date.month, date.day)}>
                 { date.day }
             </div>
         )
     }
 }
+
+const mapDispatchToProps = ({
+    showReminderModal,
+})
+
+export default connect(null, mapDispatchToProps)(DayCard)
