@@ -1,0 +1,24 @@
+.calendar, .calendarHeader {
+    display: table;
+    width: 36rem;
+    font-size: 10px;
+}
+
+.calendarHeader div {
+    float: left;
+    display: table-cell;
+    width: 5rem;
+    border-right: solid 1px #989898;
+    border-left: solid 1px #989898;
+}
+
+.calendarBody {}
+
+.empty {
+    width: 5rem;
+    height: 5rem;
+    float: left;
+    background-color: #868686;
+    border: solid 1px #989898;
+    display: table-cell;
+}
