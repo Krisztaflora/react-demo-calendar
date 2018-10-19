@@ -27,6 +27,15 @@ export default function reducer(state = initialState, action) {
                 reminderDate: {},
             }
 
+        case actionTypes.ADD_REMINDER:
+            return {
+                ...state,
+                reminders: state.reminders.concat({
+                    datetime: new Date(action.payload.year.toString() + '.' + (action.payload.month + 1).toString() + '.' + action.payload.day.toString() + ' ' + action.payload.time).getTime(),
+                    text: action.payload.text,
+                })
+            }
+
         default:
             return state
     }
