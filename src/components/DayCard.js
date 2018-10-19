@@ -11,17 +11,11 @@ export default class DayCard extends Component {
         }).isRequired
     }
 
-    dayName(dayNum) {
-        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-        return dayNames[dayNum]
-    }
-
     render() {
         const { date } = this.props
 
         return (
-            <div className={styles.daycard}>
+            <div className={styles.daycard} onClick={() => console.log('click')}>
                 { date.day }
             </div>
         )
