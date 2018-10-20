@@ -17,11 +17,13 @@ class ReminderModal extends Component {
         this.state = {
             time: '00:00:00',
             text: '',
+            color: '#000',
         }
 
         this.changeTime = this.changeTime.bind(this)
         this.changeText = this.changeText.bind(this)
         this.save = this.save.bind(this)
+        this.changeColor = this.changeColor.bind(this)
     }
 
     changeTime(e) {
@@ -32,14 +34,20 @@ class ReminderModal extends Component {
 
     changeText(e) {
         this.setState({
-            text: e.target.value
+            text: e.target.value,
+        })
+    }
+
+    changeColor(e) {
+        this.setState({
+            color: e.target.value,
         })
     }
 
     save() {
         const { data, closeReminderModal, addReminder } = this.props
 
-        addReminder(data.year, data.month, data.day, this.state.time, this.state.text)
+        addReminder(data.year, data.month, data.day, this.state.time, this.state.text, this.state.color)
 
         closeReminderModal()
     }
@@ -66,6 +74,19 @@ class ReminderModal extends Component {
                         <label>
                             Reminder text:
                             <textarea value={ this.state.text } onChange={ this.changeText } />
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            Color:
+                            <select value={ this.state.color } onChange={ this.changeColor }>
+                                <option value="#000">Black</option>
+                                <option value="#666">Gray</option>
+                                <option value="#F00">Red</option>
+                                <option value="#0F0">Green</option>
+                                <option value="#00F">Blue</option>
+                            </select>
                         </label>
                     </div>
 

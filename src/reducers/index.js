@@ -2,8 +2,10 @@ import { actionTypes } from '../actions'
 
 const initialState = {
     reminders: [],
+    reminderCounter: 0,
     openedReminderModal: false,
     reminderDate: {},
+    changedReminders: 0,
 }
 
 export default function reducer(state = initialState, action) {
@@ -31,9 +33,21 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 reminders: state.reminders.concat({
+                    id: state.reminderCounter,
                     datetime: new Date(action.payload.year.toString() + '.' + (action.payload.month + 1).toString() + '.' + action.payload.day.toString() + ' ' + action.payload.time).getTime(),
                     text: action.payload.text,
-                })
+                    color: action.payload.color,
+                }),
+                reminderCounter: ++state.reminderCounter,
+            }
+
+        case actionTypes.DELETE_REMINDER:
+            const reminderIndex = state.reminders.findIndex((element) => element.id === action.payload.id)
+            state.reminders.splice(reminderIndex, 1)
+            return {
+                ...state,
+                reminders: state.reminders,
+                changedReminders: ++state.changedReminders,
             }
 
         default:
@@ -43,3 +57,5 @@ export default function reducer(state = initialState, action) {
 
 export const isOpenedReminderModal = (state) => state.openedReminderModal
 export const getReminderDate = (state) => state.reminderDate
+export const getReminders = (state) => state.reminders
+export const getChangedReminders = (state) => state.changedReminders
