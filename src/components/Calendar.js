@@ -14,13 +14,59 @@ class Calendar extends Component {
         reminderDate: PropTyes.object.isRequired,
     }
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            year: null,
+            month: null,
+        }
+
+        this.changeYear = this.changeYear.bind(this)
+        this.changeMonth = this.changeMonth.bind(this)
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (!state.year) {
+            const {year, month} = props
+
+            return {year, month}
+        } else {
+            return null
+        }
+    }
+
+    changeYear(num) {
+        this.setState({
+            year: this.state.year + num,
+        })
+    }
+
+    changeMonth(num) {
+        let year = this.state.year
+        let month = this.state.month + num
+
+        if (month === -1) {
+            month = 11
+            year = year - 1
+        } else if (month === 12) {
+            month = 0
+            year = year + 1
+        }
+
+        this.setState({
+            year: year,
+            month: month,
+        })
+    }
+
     render() {
-        const { year, month, openedReminderModal, reminderDate } = this.props
+        const { openedReminderModal, reminderDate } = this.props
+        const { year, month } = this.state
 
         const firstDay = new Date(year, month, 1)
         const firstDayNum = firstDay.getDay()
         const daysOfMonth = new Date(year, month, 0).getDate()
-        console.log(year, month, firstDayNum)
         let calElements = []
 
         for (var emptyNum = 0; emptyNum < firstDayNum; emptyNum++) {
@@ -43,6 +89,12 @@ class Calendar extends Component {
         }
         return (
             <Fragment>
+                <div className={ styles.dateselector }>
+                    <h2>
+                        <button onClick={() => this.changeYear(-1)}> {'<'} </button> { year } <button onClick={() => this.changeYear(1)}>{'>'}</button>
+                        {' '}<button onClick={() => this.changeMonth(-1)}> {'<'} </button>{ month + 1 }<button onClick={() => this.changeMonth(1)}> {'>'} </button>
+                    </h2>
+                </div>
                 <div className={ styles.calendar }>
                     <div className={ styles.calendarHeader }>
                         <div>Sunday</div>
