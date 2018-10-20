@@ -35,10 +35,14 @@ export default function reducer(state = initialState, action) {
                 reminders: state.reminders.concat({
                     id: state.reminderCounter,
                     datetime: new Date(action.payload.year.toString() + '.' + (action.payload.month + 1).toString() + '.' + action.payload.day.toString() + ' ' + action.payload.time).getTime(),
+                    year: action.payload.year,
+                    month: action.payload.month,
+                    day: action.payload.day,
                     text: action.payload.text,
                     color: action.payload.color,
                 }),
                 reminderCounter: ++state.reminderCounter,
+                changedReminders: ++state.changedReminders,
             }
 
         case actionTypes.DELETE_REMINDER:

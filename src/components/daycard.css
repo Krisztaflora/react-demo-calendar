@@ -12,3 +12,13 @@
     cursor: pointer;
     font-weight: bold;
 }
+
+.importantDay {
+    color: #ab121e;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.simpleDay {
+    color: #000;
+}

@@ -3,7 +3,7 @@ import PropTyes from 'prop-types'
 import styles from './calendar.css'
 import { connect } from 'react-redux'
 import DayCard from './DayCard'
-import { isOpenedReminderModal, getReminderDate } from '../reducers'
+import { isOpenedReminderModal, getReminderDate, getChangedReminders } from '../reducers'
 import ReminderModal from '../components/ReminderModal'
 
 class Calendar extends Component {
@@ -12,6 +12,7 @@ class Calendar extends Component {
         month: PropTyes.number.isRequired,
         openedReminderModal: PropTyes.bool.isRequired,
         reminderDate: PropTyes.object.isRequired,
+        changedReminders: PropTyes.number.isRequired,
     }
 
     constructor(props) {
@@ -61,7 +62,7 @@ class Calendar extends Component {
     }
 
     render() {
-        const { openedReminderModal, reminderDate } = this.props
+        const { openedReminderModal, reminderDate, changedReminders } = this.props
         const { year, month } = this.state
 
         const firstDay = new Date(year, month, 1)
@@ -106,7 +107,7 @@ class Calendar extends Component {
                         <div>Saturday</div>
 
                     </div>
-                    <div className={ styles.calendarBody}>{ calElements }</div>
+                    <div className={ styles.calendarBody} key={ changedReminders }>{ calElements }</div>
                 </div>
 
                 {openedReminderModal && <ReminderModal data={ reminderDate } />}
@@ -118,6 +119,7 @@ class Calendar extends Component {
 const mapStateToProps = (state) => ({
     openedReminderModal: isOpenedReminderModal(state),
     reminderDate: getReminderDate(state),
+    changedReminders: getChangedReminders(state),
 })
 
 export default connect(mapStateToProps)(Calendar)
